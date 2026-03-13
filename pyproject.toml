@@ -1,0 +1,62 @@
+[project]
+name = "fin-intel-mcp"
+version = "0.1.0"
+description = "Financial Intelligence MCP Server — RAG over SEC filings, sentiment analysis, and technical indicators"
+requires-python = ">=3.12"
+dependencies = [
+    # FastAPI
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "sse-starlette>=2.2.0",
+    # MCP
+    "mcp[cli]>=1.6.0",
+    # LLM & Embeddings
+    "openai>=1.60.0",
+    # RAG
+    "langchain-text-splitters>=0.3.0",
+    "rank-bm25>=0.2.2",
+    # Database
+    "asyncpg>=0.30.0",
+    "pgvector>=0.3.6",
+    "sqlalchemy[asyncio]>=2.0.0",
+    # Technical Analysis
+    "yfinance>=0.2.50",
+    "pandas-ta>=0.3.14b",
+    "pandas>=2.2.0",
+    # Document Parsing
+    "httpx>=0.28.0",
+    # Observability
+    "langfuse>=2.60.0",
+    # Config
+    "pydantic-settings>=2.7.0",
+    "python-dotenv>=1.0.1",
+]
+
+[project.optional-dependencies]
+ml = [
+    # FinBERT sentiment + cross-encoder reranker (heavy deps, need GPU-compatible platform)
+    "transformers>=4.47.0",
+    "torch>=2.5.0",
+    "sentence-transformers>=3.3.0",
+]
+parsing = [
+    "unstructured[html]>=0.16.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.8.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["db*", "mcp_server*", "rag*", "engines*", "ingestion*", "streaming*", "observability*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

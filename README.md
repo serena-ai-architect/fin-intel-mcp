@@ -1,6 +1,8 @@
-# fin-intel-mcp
+# fin-intel-mcp — Skill Infrastructure Layer
 
-Financial Intelligence MCP Server — a Python/FastAPI service that encapsulates the heavy lifting of financial data analysis (SEC filing RAG, sentiment analysis, technical indicators) and exposes them as MCP tools for any AI Agent system.
+Financial Intelligence MCP Server — the composable skill layer for AI agent systems. Encapsulates financial data analysis (SEC filing RAG, sentiment analysis, technical indicators) and **HK regulatory compliance** as MCP tools that any agent can consume.
+
+> **Compliance-as-Infrastructure**: Regulatory rules (HKMA, SFC, PDPO, HKEX) are encoded as data and exposed as pluggable skills — not hardcoded into agent prompts. This pattern means compliance scales across any MCP-compatible agent system, addressing the industry shift from scattered agents to composable skill registries.
 
 ## Architecture
 
@@ -130,12 +132,24 @@ python -m pytest tests/test_rag_pipeline.py -v    # RAG components
 python -m pytest tests/test_ingestion.py -v       # SEC EDGAR + parser
 ```
 
-## Part of a Portfolio
+## Compliance-as-Infrastructure (HK Regulatory)
 
-This is the third project in a three-product AI portfolio:
+Three MCP tools demonstrate the compliance-as-infrastructure pattern for Hong Kong financial markets:
+
+| Tool | Description | Regulators |
+|------|-------------|------------|
+| `check_hk_compliance` | Applicable regulatory requirements for a company/activity in HK | HKMA, SFC, PDPO, HKEX |
+| `search_hkex_filings` | HKEX announcements and disclosure filings | HKEX |
+| `assess_cross_border_risk` | Cross-border regulatory risk (HK↔Mainland↔International) | PIPL, PDPO, Stock Connect |
+
+Rules are structured data in `engines/hk_rules_data.py`, not agent prompts — making them auditable, version-controlled, and consumable by any MCP-compatible system.
+
+## Part of a Skill-Composition Ecosystem
+
+This is the Skill Infrastructure Layer in a three-product AI portfolio:
 
 1. **[AdWing](https://github.com/serenahappyhacking/AdWing.ai)** — D2C ad copy generation (TypeScript/LangGraph.js/Claude)
-2. **[AI Investment Analyst](https://github.com/serenahappyhacking/ai-investment-analyst)** — Multi-agent investment analysis (TypeScript/LangGraph.js/DeepSeek)
-3. **fin-intel-mcp** — Financial intelligence infrastructure (Python/FastAPI/MCP) ← *this repo*
+2. **[AI Investment Analyst](https://github.com/serenahappyhacking/ai-investment-analyst)** — Skill-composition investment intelligence (TypeScript/LangGraph.js/DeepSeek)
+3. **fin-intel-mcp** — Skill Infrastructure Layer (Python/FastAPI/MCP) ← *this repo*
 
-The narrative: *"I designed a composable Agent infrastructure — not three isolated projects, but an ecosystem where the MCP Server provides reusable financial intelligence that any agent can consume."*
+The narrative: *"I build composable agent infrastructure — not isolated projects, but an ecosystem where financial intelligence and compliance rules are pluggable skills that any agent can consume via MCP."*

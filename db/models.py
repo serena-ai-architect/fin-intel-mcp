@@ -157,3 +157,57 @@ class QueryKnowledgeBaseInput(BaseModel):
     query: str = Field(description="Natural language question")
     ticker: str | None = Field(default=None, description="Optional ticker filter")
     top_k: int = Field(default=5, ge=1, le=20)
+
+
+# ── HK Regulatory Compliance Models ──────────────────────────────────
+
+
+class ComplianceRule(BaseModel):
+    rule_id: str
+    regulator: str = Field(description="HKMA, SFC, PDPO, or HKEX")
+    title: str
+    summary: str
+    citation: str
+    applies_to: list[str]
+
+
+class ComplianceCheckResult(BaseModel):
+    ticker: str
+    activity_type: str
+    jurisdiction: str
+    rules: list[ComplianceRule]
+    total_rules_checked: int
+    checked_at: datetime
+
+
+class HKEXFiling(BaseModel):
+    title: str
+    filing_type: str
+    date: str
+    url: str
+    summary: str
+
+
+class HKEXFilingResult(BaseModel):
+    ticker: str
+    filings: list[HKEXFiling]
+    total_found: int
+    period: str
+    searched_at: datetime
+    note: str = ""
+
+
+class CrossBorderRiskFactor(BaseModel):
+    factor: str
+    description: str
+    severity: str = Field(description="high, medium, or low")
+    jurisdictions: list[str]
+
+
+class CrossBorderRiskResult(BaseModel):
+    ticker: str
+    source_jurisdiction: str
+    target_jurisdiction: str
+    risk_factors: list[CrossBorderRiskFactor]
+    overall_risk_score: float = Field(ge=0, le=10)
+    assessed_at: datetime

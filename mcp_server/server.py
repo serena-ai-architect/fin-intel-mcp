@@ -1,4 +1,4 @@
-"""MCP Server definition — registers all 6 financial intelligence tools."""
+"""MCP Server definition — registers all 9 financial intelligence + HK compliance tools."""
 
 import json
 
@@ -15,7 +15,7 @@ from db.models import (
 
 mcp_server = FastMCP(
     "fin-intel-mcp",
-    instructions="Financial Intelligence MCP Server — RAG over SEC filings, sentiment analysis, and technical indicators",
+    instructions="Financial Intelligence MCP Server — RAG over SEC filings, sentiment analysis, technical indicators, and HK regulatory compliance tools",
 )
 
 
@@ -208,4 +208,75 @@ async def query_knowledge_base(
     chunks = await hybrid_retrieve(query, top_k=top_k * 2, ticker=ticker)
     reranked = rerank(query, chunks, top_k=top_k)
     result = await generate_answer(query, reranked)
+    return result.model_dump_json()
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# HK Regulatory Compliance Tools (Compliance-as-Infrastructure)
+# ═══════════════════════════════════════════════════════════════════════
+
+
+@mcp_server.tool()
+async def check_hk_compliance(
+    ticker: str,
+    activity_type: str,
+    jurisdiction: str = "HK",
+) -> str:
+    """Check applicable Hong Kong regulatory requirements for a company/activity.
+
+    Searches HKMA, SFC, PDPO, and HKEX rules database. Returns matching
+    regulatory requirements with citations.
+
+    Args:
+        ticker: Stock ticker symbol (e.g., 0700.HK for Tencent)
+        activity_type: Type of activity to check (e.g., "ai_deployment", "crypto", "cross_border", "data_privacy", "listing")
+        jurisdiction: Target jurisdiction (default: HK)
+    """
+    from engines.hk_regulatory import check_hk_compliance as _check
+
+    result = await _check(ticker, activity_type, jurisdiction)
+    return result.model_dump_json()
+
+
+@mcp_server.tool()
+async def search_hkex_filings(
+    ticker: str,
+    filing_type: str | None = None,
+    period: str = "1y",
+) -> str:
+    """Search HKEX announcements and disclosure filings for a listed company.
+
+    Returns annual results, connected transactions, ESG reports, and other
+    regulatory filings from HKEX.
+
+    Args:
+        ticker: HKEX stock code (e.g., 0700.HK, 1211.HK)
+        filing_type: Optional filter: "Annual Results", "Connected Transaction", "ESG Report"
+        period: Time period: 6mo, 1y, 2y
+    """
+    from engines.hk_regulatory import search_hkex_filings as _search
+
+    result = await _search(ticker, filing_type, period)
+    return result.model_dump_json()
+
+
+@mcp_server.tool()
+async def assess_cross_border_risk(
+    ticker: str,
+    source_jurisdiction: str = "HK",
+    target_jurisdiction: str = "CN",
+) -> str:
+    """Assess cross-border regulatory risk for companies operating across jurisdictions.
+
+    Covers data localization (PIPL/PDPO), capital flow restrictions, dual-listing
+    compliance, sanctions screening, VIE structure risk, and regulatory divergence.
+
+    Args:
+        ticker: Stock ticker symbol
+        source_jurisdiction: Source jurisdiction code (HK, US, CN)
+        target_jurisdiction: Target jurisdiction code (HK, US, CN)
+    """
+    from engines.hk_regulatory import assess_cross_border_risk as _assess
+
+    result = await _assess(ticker, source_jurisdiction, target_jurisdiction)
     return result.model_dump_json()

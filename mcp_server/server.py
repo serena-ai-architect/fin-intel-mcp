@@ -14,7 +14,7 @@ from db.models import (
 )
 
 mcp_server = FastMCP(
-    "fin-intel-mcp",
+    "hk-regtech-mcp",
     instructions="Financial Intelligence MCP Server — RAG over SEC filings, sentiment analysis, technical indicators, and HK regulatory compliance tools",
 )
 

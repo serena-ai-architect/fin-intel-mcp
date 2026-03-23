@@ -1,6 +1,6 @@
-# fin-intel-mcp — Skill Infrastructure Layer
+# hk-regtech-mcp — Skill Infrastructure Layer
 
-Financial Intelligence MCP Server — the composable skill layer for AI agent systems. Encapsulates financial data analysis (SEC filing RAG, sentiment analysis, technical indicators) and **HK regulatory compliance** as MCP tools that any agent can consume.
+HK RegTech MCP Server — the composable skill layer for AI agent systems. Encapsulates **Hong Kong regulatory compliance** (HKMA, SFC, PDPO, HKEX), financial data analysis (SEC filing RAG, sentiment analysis, technical indicators) as MCP tools that any agent can consume.
 
 > **Compliance-as-Infrastructure**: Regulatory rules (HKMA, SFC, PDPO, HKEX) are encoded as data and exposed as pluggable skills — not hardcoded into agent prompts. This pattern means compliance scales across any MCP-compatible agent system, addressing the industry shift from scattered agents to composable skill registries.
 
@@ -8,7 +8,7 @@ Financial Intelligence MCP Server — the composable skill layer for AI agent sy
 
 ```
 ┌──────────────────────────────────────────────┐
-│  fin-intel-mcp (Python 3.12 / FastAPI)       │
+│  hk-regtech-mcp (Python 3.12 / FastAPI)       │
 │                                              │
 │  MCP Tools:                                  │
 │  ├── search_sec_filings    (RAG 10-K/10-Q)  │
@@ -31,7 +31,7 @@ Financial Intelligence MCP Server — the composable skill layer for AI agent sy
 └──────────────┬───────────────────────────────┘
                │ MCP Protocol + REST
                ▼
-     AI Investment Analyst (first consumer)
+     Agentic Analyst (first consumer)
      or any MCP-compatible agent
 ```
 
@@ -39,8 +39,8 @@ Financial Intelligence MCP Server — the composable skill layer for AI agent sy
 
 ```bash
 # 1. Clone and setup
-git clone https://github.com/serenahappyhacking/fin-intel-mcp.git
-cd fin-intel-mcp
+git clone https://github.com/serenahappyhacking/hk-regtech-mcp.git
+cd hk-regtech-mcp
 
 # 2. Create virtual environment (requires Python 3.12+)
 uv venv --python python3.12
@@ -93,7 +93,7 @@ python main.py mcp
 ## Project Structure
 
 ```
-fin-intel-mcp/
+hk-regtech-mcp/
 ├── main.py                      # FastAPI + MCP entry point
 ├── config.py                    # Pydantic Settings
 ├── db/
@@ -149,7 +149,7 @@ Rules are structured data in `engines/hk_rules_data.py`, not agent prompts — m
 This is the Skill Infrastructure Layer in a three-product AI portfolio:
 
 1. **[AdWing](https://github.com/serenahappyhacking/AdWing.ai)** — D2C ad copy generation (TypeScript/LangGraph.js/Claude)
-2. **[AI Investment Analyst](https://github.com/serenahappyhacking/ai-investment-analyst)** — Skill-composition investment intelligence (TypeScript/LangGraph.js/DeepSeek)
-3. **fin-intel-mcp** — Skill Infrastructure Layer (Python/FastAPI/MCP) ← *this repo*
+2. **[Agentic Analyst](https://github.com/serenahappyhacking/agentic-analyst)** — Skill-composition investment intelligence (TypeScript/LangGraph.js/DeepSeek)
+3. **hk-regtech-mcp** — Skill Infrastructure Layer (Python/FastAPI/MCP) ← *this repo*
 
 The narrative: *"I build composable agent infrastructure — not isolated projects, but an ecosystem where financial intelligence and compliance rules are pluggable skills that any agent can consume via MCP."*

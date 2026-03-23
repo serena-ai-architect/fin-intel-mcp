@@ -1,7 +1,7 @@
 [project]
-name = "fin-intel-mcp"
+name = "hk-regtech-mcp"
 version = "0.1.0"
-description = "Financial Intelligence MCP Server — RAG over SEC filings, sentiment analysis, and technical indicators"
+description = "HK RegTech MCP Server — compliance-as-infrastructure for Hong Kong financial regulation (HKMA, SFC, PDPO, HKEX)"
 requires-python = ">=3.12"
 dependencies = [
     # FastAPI

@@ -1,7 +1,7 @@
-# ARCHITECTURE.md — hk-regtech-mcp
+# AGENTS.md — hk-regtech-mcp
 
 > Last updated: 2026-03-24
-> Update this file when the system architecture actually changes, not for every code commit.
+> Update this file when the system architecture actually changes.
 
 ## System Overview
 
@@ -179,7 +179,10 @@ hk-regtech-mcp/
 │   ├── test_rag_pipeline.py    # RAG: chunker, reranker, RRF fusion (10 tests)
 │   ├── test_technical.py       # Technical signals (4 tests)
 │   └── test_ingestion.py       # SEC EDGAR + parser (6 tests)
-└── memory_docs/                # Project memory (this file system)
+├── CLAUDE.md                   # Auto-loaded: identity + stack + protocol
+├── AGENTS.md                   # This file: architecture + tools + pipelines
+├── CHANGELOG.md                # Session relay (changes + TODO)
+└── DECISIONS.md                # ADRs (why A not B)
 ```
 
 ## Pydantic Data Models (13)

@@ -4,7 +4,7 @@
 
 **hk-regtech-mcp**: HK RegTech MCP Server — compliance-as-infrastructure for Hong Kong financial regulation. 9 个可组合 MCP 工具（6 金融智能 + 3 HK 合规），任何 MCP 兼容 AI 系统即插即用。
 
-**定位**：独立 Skill Layer，不绑定特定 orchestrator。上层 [agentic-analyst](../../agentic-analyst/) 是参考实现之一。
+**定位**：独立 Skill Layer，不绑定特定 orchestrator。上层 [agentic-analyst](../agentic-analyst/) 是参考实现之一。
 
 ## Tech Stack
 
@@ -19,7 +19,7 @@
 - **Ingestion**: SEC EDGAR API + HTML parser
 - **Observability**: Langfuse (all tool calls traced)
 - **Streaming**: Server-Sent Events (SSE)
-- **Testing**: pytest + pytest-asyncio
+- **Testing**: pytest + pytest-asyncio (20 tests)
 - **Linting**: Ruff (Python 3.12, line-length 100)
 
 ## MCP Tools (9 total)
@@ -46,9 +46,30 @@
 
 ## Session Protocol
 
-1. **Session start**: Read `memory_docs/ARCHITECTURE.md`, `memory_docs/DECISIONS.md`, latest `memory_docs/CHANGELOG.md`
-2. **During work**: For architectural decisions, document in `memory_docs/DECISIONS.md`
-3. **Session end (MANDATORY)**: Update `memory_docs/CHANGELOG.md`
+### Start of Session
+1. Read `AGENTS.md` to understand architecture, tools, and pipelines.
+2. Read `CHANGELOG.md` (latest TODO section) to understand current state and next steps.
+3. Confirm understanding before proceeding.
+
+### During Work
+- For any architectural decision, document it in `DECISIONS.md` before implementing.
+
+### End of Session (MANDATORY)
+Update `CHANGELOG.md` with:
+- What changed (summary + file list)
+- Why it changed
+- What to do next (TODO for next session)
+- If architecture changed → also update `AGENTS.md`
+- If a design decision was made → also update `DECISIONS.md`
+
+## File Roles
+
+| File | Role | Update Frequency |
+|------|------|-----------------|
+| `CLAUDE.md` | Identity + stack + protocol + preferences (auto-loaded) | When phase changes |
+| `AGENTS.md` | Architecture + tools + pipelines + DB schema | When architecture changes |
+| `CHANGELOG.md` | Session changes + TODO (relay baton between sessions) | Every session end |
+| `DECISIONS.md` | ADRs — why A not B (prevents re-debating) | When decisions made |
 
 ## Coding Preferences
 
